@@ -16,21 +16,21 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Token is missing');
     }
 
     try {
       const payload = this.jwtService.verify(token);
-      request.userId = payload.userId;
+      request['userId'] = payload.userId; // Injection du userId dans la requête
+      return true;
     } catch (e) {
-      Logger.error(e.message);
+      Logger.error(`Authentication failed: ${e.message}`);
       throw new UnauthorizedException('Invalid Token');
     }
-    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

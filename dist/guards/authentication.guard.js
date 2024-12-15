@@ -20,17 +20,17 @@ let AuthenticationGuard = class AuthenticationGuard {
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-            throw new common_1.UnauthorizedException('Invalid token');
+            throw new common_1.UnauthorizedException('Token is missing');
         }
         try {
             const payload = this.jwtService.verify(token);
-            request.userId = payload.userId;
+            request['userId'] = payload.userId;
+            return true;
         }
         catch (e) {
-            common_1.Logger.error(e.message);
+            common_1.Logger.error(`Authentication failed: ${e.message}`);
             throw new common_1.UnauthorizedException('Invalid Token');
         }
-        return true;
     }
     extractTokenFromHeader(request) {
         var _a;

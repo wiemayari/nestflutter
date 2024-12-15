@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { SignupDto } from './dtos/signup.dto';
 import { LoginDto } from './dtos/login.dto';
 import { RefreshTokenDto } from './dtos/refresh-tokens.dto';
@@ -12,6 +12,16 @@ import { AuthService } from './User.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get('recommendations/:userId')
+  async getRecommendations(@Param('userId') userId: string) {
+    return this.authService.getUserRecommendations(userId);
+  }
+  @Post('save-selection')
+  async saveSelection(@Body() body: { userId: string; doctorName: string; category: string }) {
+    return this.authService.saveUserSelection(body.userId, body.doctorName, body.category);
+  }
+
+  
   @Post('signup')
   async signUp(@Body() signupData: SignupDto) {
     return this.authService.signup(signupData);

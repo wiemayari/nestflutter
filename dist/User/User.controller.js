@@ -26,6 +26,12 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
+    async getRecommendations(userId) {
+        return this.authService.getUserRecommendations(userId);
+    }
+    async saveSelection(body) {
+        return this.authService.saveUserSelection(body.userId, body.doctorName, body.category);
+    }
     async signUp(signupData) {
         return this.authService.signup(signupData);
     }
@@ -45,6 +51,20 @@ let AuthController = class AuthController {
         return this.authService.resetPassword(resetPasswordDto.newPassword, resetPasswordDto.resetToken);
     }
 };
+__decorate([
+    (0, common_1.Get)('recommendations/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getRecommendations", null);
+__decorate([
+    (0, common_1.Post)('save-selection'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "saveSelection", null);
 __decorate([
     (0, common_1.Post)('signup'),
     __param(0, (0, common_1.Body)()),

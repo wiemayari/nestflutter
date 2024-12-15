@@ -19,6 +19,14 @@ __decorate([
 ], ResetPasswordDto.prototype, "resetToken", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ResetPasswordDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ResetPasswordDto.prototype, "code", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(6),
     (0, class_validator_1.Matches)(/^(?=.*[0-9])/, { message: 'Password must contain at least one number' }),
     __metadata("design:type", String)

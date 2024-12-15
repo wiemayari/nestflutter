@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -18,9 +19,16 @@ import { nanoid } from 'nanoid';
 import { ResetToken } from './schemas/reset-token.schema';
 import { MailService } from 'src/services/mail.service';
 import { RolesService } from 'src/roles/roles.service';
+import { Permission } from 'src/guards/authorization.guard';
 
 @Injectable()
 export class AuthService {
+  getUserRecommendations(userId: string) {
+    throw new Error('Method not implemented.');
+  }
+  saveUserSelection(userId: string, doctorName: string, category: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectModel(User.name) private UserModel: Model<User>,
     @InjectModel(RefreshToken.name)
@@ -201,12 +209,11 @@ export class AuthService {
     console.log('Token de rafraîchissement stocké');
   }
 
-  async getUserPermissions(userId: string) {
-    const user = await this.UserModel.findById(userId);
-
-    if (!user) throw new BadRequestException();
-
-    const role = await this.rolesService.getRoleById(user.roleId.toString());
-    return role.permissions;
+  async getUserPermissions(...args: [userId: string]): Promise<Permission[]> {
+    // Simule des données récupérées depuis la base
+    return [
+      { resource: 'doctors', actions: ['read', 'write'] },
+      { resource: 'patients', actions: ['read'] },
+    ];
   }
 }

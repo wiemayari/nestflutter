@@ -21,26 +21,19 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 /// <reference types="mongoose/types/inferrawdoctype" />
-import { Action } from '../enums/action.enum';
-import { Resource } from '../enums/resource.enum';
-declare class Permission {
-    resource: Resource;
-    actions: Action[];
-}
-export declare class Role {
+import { Document } from 'mongoose';
+export declare class Role extends Document {
     name: string;
-    permissions: Permission[];
+    permissions: string[];
 }
-export declare const RoleSchema: import("mongoose").Schema<Role, import("mongoose").Model<Role, any, any, any, import("mongoose").Document<unknown, any, Role> & Role & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
+export declare const RoleSchema: import("mongoose").Schema<Role, import("mongoose").Model<Role, any, any, any, Document<unknown, any, Role> & Role & Required<{
+    _id: unknown;
+}> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Role, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<Role>> & import("mongoose").FlatRecord<Role> & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Role, Document<unknown, {}, import("mongoose").FlatRecord<Role>> & import("mongoose").FlatRecord<Role> & Required<{
+    _id: unknown;
+}> & {
     __v: number;
 }>;
-export {};

@@ -11,29 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleSchema = exports.Role = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const action_enum_1 = require("../enums/action.enum");
-const resource_enum_1 = require("../enums/resource.enum");
-let Permission = class Permission {
+const mongoose_2 = require("mongoose");
+let Role = class Role extends mongoose_2.Document {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, enum: resource_enum_1.Resource }),
-    __metadata("design:type", String)
-], Permission.prototype, "resource", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: [{ type: String, enum: action_enum_1.Action }] }),
-    __metadata("design:type", Array)
-], Permission.prototype, "actions", void 0);
-Permission = __decorate([
-    (0, mongoose_1.Schema)()
-], Permission);
-let Role = class Role {
-};
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Role.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, type: [Permission] }),
+    (0, mongoose_1.Prop)({ default: [] }),
     __metadata("design:type", Array)
 ], Role.prototype, "permissions", void 0);
 Role = __decorate([

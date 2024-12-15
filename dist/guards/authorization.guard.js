@@ -25,25 +25,28 @@ let AuthorizationGuard = class AuthorizationGuard {
             throw new common_1.UnauthorizedException('User Id not found');
         }
         const routePermissions = this.reflector.getAllAndOverride(permissions_decorator_1.PERMISSIONS_KEY, [context.getHandler(), context.getClass()]);
-        console.log(` the route permissions are ${routePermissions}`);
-        if (!routePermissions) {
+        console.log('Route Permissions:', routePermissions);
+        if (!routePermissions || routePermissions.length === 0) {
             return true;
         }
         try {
             const userPermissions = await this.authService.getUserPermissions(request.userId);
+            console.log('User Permissions:', userPermissions);
             for (const routePermission of routePermissions) {
                 const userPermission = userPermissions.find((perm) => perm.resource === routePermission.resource);
-                if (!userPermission)
-                    throw new common_1.ForbiddenException();
-                const allActionsAvailable = routePermission.actions.every((requiredAction) => userPermission.actions.includes(requiredAction));
-                if (!allActionsAvailable)
-                    throw new common_1.ForbiddenException();
+                if (!userPermission) {
+                    throw new common_1.ForbiddenException(`Access denied to resource: ${routePermission.resource}`);
+                }
+                const hasAllActions = routePermission.actions.every((requiredAction) => userPermission.actions.includes(requiredAction));
+                if (!hasAllActions) {
+                    throw new common_1.ForbiddenException(`Insufficient actions for resource: ${routePermission.resource}`);
+                }
             }
+            return true;
         }
         catch (e) {
-            throw new common_1.ForbiddenException();
+            throw new common_1.ForbiddenException(`Access denied: ${e.message}`);
         }
-        return true;
     }
 };
 AuthorizationGuard = __decorate([

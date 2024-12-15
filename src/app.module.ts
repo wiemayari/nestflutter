@@ -11,17 +11,13 @@ import { ToDoModule } from './todo/todo.module';
 import { ChecklistService } from './checklist/checklist.service';
 import { ChecklistController } from './checklist/checklist.controller';
 import { ChecklistModule } from './checklist/checklist.module';
-import { DoctorService } from './doctor/doctor.service';
-import { DoctorController } from './doctor/doctor.controller';
 import { ConsultationScheduleModule } from './consultation-schedule/consultation-schedule.module';
 import { ConsultationScheduleController } from './consultation-schedule/consultation-schedule.controller';
-import { DoctorModule } from './doctor/doctor.module';
 import { CategoryService } from './category/category.service';
 import { CategoryController } from './category/category.controller';
 import { CategoryModule } from './category/category.module';
 import { ConsultationScheduleService } from './consultation-schedule/consultation-schedule.service';
-import { AppointmentService } from './appointment/appointment.service';
-import { AppointmentModule } from './appointment/appointment.module';
+import { SymptomsModule } from './symptoms/symptoms.module';
 import config from './config/config';
 
 @Module({
@@ -41,23 +37,23 @@ import config from './config/config';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (config) => ({
+      useFactory: async (config: ConfigService) => ({
         uri: config.get('database.connectionString'),
       }),
       inject: [ConfigService],
     }),
+    
     AuthModule,
     RolesModule,
     DailyCheckinModule,
     ToDoModule,
     ChecklistModule,
     CategoryModule,
-    DoctorModule,
     ConsultationScheduleModule,
-    AppointmentModule,
+    SymptomsModule,
     
   ],
-  controllers: [AppController, ChecklistController, DoctorController, CategoryController, ConsultationScheduleController],
-  providers: [AppService, ChecklistService, DoctorService, CategoryService, ConsultationScheduleService, AppointmentService],
+  controllers: [AppController, ChecklistController, CategoryController, ConsultationScheduleController],
+  providers: [AppService, ChecklistService, CategoryService, ConsultationScheduleService],
 })
 export class AppModule {}

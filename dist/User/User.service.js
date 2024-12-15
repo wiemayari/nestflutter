@@ -26,6 +26,12 @@ const reset_token_schema_1 = require("./schemas/reset-token.schema");
 const mail_service_1 = require("../services/mail.service");
 const roles_service_1 = require("../roles/roles.service");
 let AuthService = class AuthService {
+    getUserRecommendations(userId) {
+        throw new Error('Method not implemented.');
+    }
+    saveUserSelection(userId, doctorName, category) {
+        throw new Error('Method not implemented.');
+    }
     constructor(UserModel, RefreshTokenModel, ResetTokenModel, jwtService, mailService, rolesService) {
         this.UserModel = UserModel;
         this.RefreshTokenModel = RefreshTokenModel;
@@ -157,12 +163,11 @@ let AuthService = class AuthService {
         });
         console.log('Token de rafraîchissement stocké');
     }
-    async getUserPermissions(userId) {
-        const user = await this.UserModel.findById(userId);
-        if (!user)
-            throw new common_1.BadRequestException();
-        const role = await this.rolesService.getRoleById(user.roleId.toString());
-        return role.permissions;
+    async getUserPermissions(...args) {
+        return [
+            { resource: 'doctors', actions: ['read', 'write'] },
+            { resource: 'patients', actions: ['read'] },
+        ];
     }
 };
 AuthService = __decorate([

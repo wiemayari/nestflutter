@@ -34,6 +34,12 @@ import { AuthService } from './User.service';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
+    getRecommendations(userId: string): Promise<void>;
+    saveSelection(body: {
+        userId: string;
+        doctorName: string;
+        category: string;
+    }): Promise<void>;
     signUp(signupData: SignupDto): Promise<import("mongoose").Document<unknown, {}, import("./schemas/user.schema").User> & import("./schemas/user.schema").User & Required<{
         _id: unknown;
     }> & {
