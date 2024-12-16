@@ -6,11 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolesModule } from './roles/roles.module';
-import { DailyCheckinModule } from './daily-checkin/daily-checkin.module';
 import { ToDoModule } from './todo/todo.module';
-import { ChecklistService } from './checklist/checklist.service';
-import { ChecklistController } from './checklist/checklist.controller';
-import { ChecklistModule } from './checklist/checklist.module';
 import { ConsultationScheduleModule } from './consultation-schedule/consultation-schedule.module';
 import { ConsultationScheduleController } from './consultation-schedule/consultation-schedule.controller';
 import { CategoryService } from './category/category.service';
@@ -19,6 +15,11 @@ import { CategoryModule } from './category/category.module';
 import { ConsultationScheduleService } from './consultation-schedule/consultation-schedule.service';
 import { SymptomsModule } from './symptoms/symptoms.module';
 import config from './config/config';
+import { CheckInController } from './checkin/checkin.controller';
+import { CheckInModule } from './checkin/checkin.module';
+import { CheckInService } from './checkin/checkin.service';
+import { GeminiModule } from './gemini/gemini.module';
+import { ResponseeModule } from './responsee/responsee.module';
 
 @Module({
   imports: [
@@ -42,18 +43,17 @@ import config from './config/config';
       }),
       inject: [ConfigService],
     }),
-    
+    CheckInModule,
     AuthModule,
     RolesModule,
-    DailyCheckinModule,
     ToDoModule,
-    ChecklistModule,
     CategoryModule,
     ConsultationScheduleModule,
     SymptomsModule,
-    
+    GeminiModule,
+    ResponseeModule,
   ],
-  controllers: [AppController, ChecklistController, CategoryController, ConsultationScheduleController],
-  providers: [AppService, ChecklistService, CategoryService, ConsultationScheduleService],
+  controllers: [AppController, CategoryController, ConsultationScheduleController],
+  providers: [AppService, CategoryService, ConsultationScheduleService],
 })
 export class AppModule {}

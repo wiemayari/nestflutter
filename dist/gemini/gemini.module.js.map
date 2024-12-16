@@ -1,0 +1,1 @@
+{"version":3,"file":"gemini.module.js","sourceRoot":"","sources":["../../src/gemini/gemini.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,yCAA2C;AAC3C,qDAAiD;AAS1C,IAAM,YAAY,GAAlB,MAAM,YAAY;CAAG,CAAA;AAAf,YAAY;IANxB,IAAA,eAAM,EAAC;QACN,OAAO,EAAE,CAAC,kBAAU,CAAC;QACrB,SAAS,EAAE,CAAC,8BAAa,CAAC;QAC1B,OAAO,EAAE,CAAC,8BAAa,CAAC;KAEzB,CAAC;GACW,YAAY,CAAG;AAAf,oCAAY"}

@@ -15,11 +15,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const roles_module_1 = require("./roles/roles.module");
-const daily_checkin_module_1 = require("./daily-checkin/daily-checkin.module");
 const todo_module_1 = require("./todo/todo.module");
-const checklist_service_1 = require("./checklist/checklist.service");
-const checklist_controller_1 = require("./checklist/checklist.controller");
-const checklist_module_1 = require("./checklist/checklist.module");
 const consultation_schedule_module_1 = require("./consultation-schedule/consultation-schedule.module");
 const consultation_schedule_controller_1 = require("./consultation-schedule/consultation-schedule.controller");
 const category_service_1 = require("./category/category.service");
@@ -28,6 +24,9 @@ const category_module_1 = require("./category/category.module");
 const consultation_schedule_service_1 = require("./consultation-schedule/consultation-schedule.service");
 const symptoms_module_1 = require("./symptoms/symptoms.module");
 const config_2 = require("./config/config");
+const checkin_module_1 = require("./checkin/checkin.module");
+const gemini_module_1 = require("./gemini/gemini.module");
+const responsee_module_1 = require("./responsee/responsee.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -53,17 +52,18 @@ AppModule = __decorate([
                 }),
                 inject: [config_1.ConfigService],
             }),
+            checkin_module_1.CheckInModule,
             User_module_1.AuthModule,
             roles_module_1.RolesModule,
-            daily_checkin_module_1.DailyCheckinModule,
             todo_module_1.ToDoModule,
-            checklist_module_1.ChecklistModule,
             category_module_1.CategoryModule,
             consultation_schedule_module_1.ConsultationScheduleModule,
             symptoms_module_1.SymptomsModule,
+            gemini_module_1.GeminiModule,
+            responsee_module_1.ResponseeModule,
         ],
-        controllers: [app_controller_1.AppController, checklist_controller_1.ChecklistController, category_controller_1.CategoryController, consultation_schedule_controller_1.ConsultationScheduleController],
-        providers: [app_service_1.AppService, checklist_service_1.ChecklistService, category_service_1.CategoryService, consultation_schedule_service_1.ConsultationScheduleService],
+        controllers: [app_controller_1.AppController, category_controller_1.CategoryController, consultation_schedule_controller_1.ConsultationScheduleController],
+        providers: [app_service_1.AppService, category_service_1.CategoryService, consultation_schedule_service_1.ConsultationScheduleService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

@@ -12,15 +12,17 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
     }));
     const config = new swagger_1.DocumentBuilder()
-        .setTitle('Cats example')
-        .setDescription('The cats API description')
+        .setTitle('API Example')
+        .setDescription('Description de l\'API')
         .setVersion('1.0')
-        .addTag('cats')
+        .addTag('example')
         .build();
-    const documentFactory = () => swagger_1.SwaggerModule.createDocument(app, config);
-    swagger_1.SwaggerModule.setup('api', app, documentFactory);
+    const document = swagger_1.SwaggerModule.createDocument(app, config);
+    swagger_1.SwaggerModule.setup('api', app, document);
     app.enableCors();
-    await app.listen((_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000);
+    const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
+    await app.listen(port);
+    console.log(`Application is running on: http://localhost:${port}/api`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
