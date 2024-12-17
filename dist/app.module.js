@@ -27,6 +27,7 @@ const config_2 = require("./config/config");
 const checkin_module_1 = require("./checkin/checkin.module");
 const gemini_module_1 = require("./gemini/gemini.module");
 const responsee_module_1 = require("./responsee/responsee.module");
+const prediction_module_1 = require("./prediction/prediction.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -61,6 +62,7 @@ AppModule = __decorate([
             symptoms_module_1.SymptomsModule,
             gemini_module_1.GeminiModule,
             responsee_module_1.ResponseeModule,
+            prediction_module_1.PredictionModule,
         ],
         controllers: [app_controller_1.AppController, category_controller_1.CategoryController, consultation_schedule_controller_1.ConsultationScheduleController],
         providers: [app_service_1.AppService, category_service_1.CategoryService, consultation_schedule_service_1.ConsultationScheduleService],

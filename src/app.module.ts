@@ -20,6 +20,7 @@ import { CheckInModule } from './checkin/checkin.module';
 import { CheckInService } from './checkin/checkin.service';
 import { GeminiModule } from './gemini/gemini.module';
 import { ResponseeModule } from './responsee/responsee.module';
+import { PredictionModule } from './prediction/prediction.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { ResponseeModule } from './responsee/responsee.module';
     SymptomsModule,
     GeminiModule,
     ResponseeModule,
+    PredictionModule,
   ],
   controllers: [AppController, CategoryController, ConsultationScheduleController],
   providers: [AppService, CategoryService, ConsultationScheduleService],
