@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards ,InternalServerErrorException} from '@nestjs/common';
 import { SignupDto } from './dtos/signup.dto';
 import { LoginDto } from './dtos/login.dto';
 import { RefreshTokenDto } from './dtos/refresh-tokens.dto';
@@ -63,5 +63,20 @@ export class AuthController {
       resetPasswordDto.newPassword,
       resetPasswordDto.resetToken,
     );
+  }
+
+  @Get('users')
+  async getAllUsers() {
+    return this.authService.getAllUsers();
+  }
+
+  @Get('role-percentages')
+  async getRolePercentages() {
+    const rolePercentages = await this.authService.getRolePercentages();
+    if (rolePercentages.percentages) {
+      return rolePercentages;
+    } else {
+      throw new InternalServerErrorException('Role percentages could not be calculated');
+    }
   }
 }

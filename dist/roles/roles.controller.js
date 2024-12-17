@@ -23,6 +23,9 @@ let RolesController = class RolesController {
     async createRole(role) {
         return this.rolesService.createRole(role);
     }
+    async getRoles() {
+        return this.rolesService.getRoles();
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -31,6 +34,12 @@ __decorate([
     __metadata("design:paramtypes", [role_dto_1.CreateRoleDto]),
     __metadata("design:returntype", Promise)
 ], RolesController.prototype, "createRole", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], RolesController.prototype, "getRoles", null);
 RolesController = __decorate([
     (0, common_1.Controller)('roles'),
     __metadata("design:paramtypes", [roles_service_1.RolesService])

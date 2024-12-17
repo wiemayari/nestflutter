@@ -58,4 +58,19 @@ export class PredictionService {
       );
     }
   }
+
+  // Récupérer toutes les prédictions stockées dans MongoDB
+  async getAllPredictions(): Promise<PredictionDocument[]> {
+    try {
+      const predictions = await this.predictionModel.find().exec();
+      console.log('Toutes les prédictions récupérées :', predictions);
+      return predictions;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des prédictions :', error.message);
+      throw new HttpException(
+        `Erreur lors de la récupération des prédictions : ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

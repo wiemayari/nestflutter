@@ -1,4 +1,4 @@
-import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsString, Matches, MinLength,IsMongoId } from 'class-validator';
 
 export class SignupDto {
   @IsString()
@@ -17,4 +17,7 @@ export class SignupDto {
 
   @IsString()  // Accepte n'importe quelle chaîne de caractères pour l'URL de l'image
   imageUri: string;
+
+  @IsMongoId()  // Utilisé pour valider l'ID MongoDB du rôle
+  roleId: string;
 }

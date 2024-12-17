@@ -5,4 +5,5 @@ export declare class ResponseeService {
     private responseeModel;
     constructor(responseeModel: Model<ResponseeDocument>);
     create(createResponseeDto: CreateResponseeDto): Promise<Responsee>;
+    findAllByUser(userId: string): Promise<Responsee[]>;
 }

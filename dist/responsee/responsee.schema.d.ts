@@ -29,6 +29,7 @@ export declare class Responsee {
     query: string;
     response: string;
     category: string;
+    userId: string;
     createdAt: Date;
 }
 export declare const ResponseeSchema: import("mongoose").Schema<Responsee, import("mongoose").Model<Responsee, any, any, any, Document<unknown, any, Responsee> & Responsee & {

@@ -9,7 +9,7 @@ import {
 import { SignupDto } from './dtos/signup.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model ,Types} from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -41,11 +41,11 @@ export class AuthService {
   ) {}
 
   async signup(signupData: SignupDto) {
-    const { username, email, password, bio, imageUri } = signupData;
-
+    const { username, email, password, bio, imageUri, roleId } = signupData;
+  
     // Log des données reçues
     console.log('Données d\'inscription reçues :', signupData);
-
+  
     // Vérification de l'email
     console.log('Vérification de l\'email...');
     const emailInUse = await this.UserModel.findOne({ email });
@@ -53,14 +53,14 @@ export class AuthService {
       console.log('Erreur : L\'email est déjà utilisé.');
       throw new BadRequestException('Email already in use');
     }
-
+  
     // Hachage du mot de passe
     console.log('Création du mot de passe haché...');
     const hashedPassword = await bcrypt.hash(password, 10);
-
+  
     // Log du mot de passe haché
     console.log('Mot de passe haché :', hashedPassword);
-
+  
     // Création du document utilisateur et enregistrement dans MongoDB
     try {
       console.log('Création de l\'utilisateur...');
@@ -70,8 +70,9 @@ export class AuthService {
         password: hashedPassword,
         bio,
         imageUri,
+        roleId, // Including the roleId in the user creation
       });
-
+  
       console.log('Utilisateur créé avec succès :', newUser);
       return newUser;
     } catch (error) {
@@ -79,6 +80,7 @@ export class AuthService {
       throw new InternalServerErrorException('Erreur lors de la création de l\'utilisateur');
     }
   }
+  
 
   async login(credentials: LoginDto) {
     const { email, password } = credentials;
@@ -216,4 +218,70 @@ export class AuthService {
       { resource: 'patients', actions: ['read'] },
     ];
   }
+
+
+  async getAllUsers() {
+    try {
+      const users = await this.UserModel.find();
+      if (!users) {
+        throw new NotFoundException('No users found');
+      }
+      console.log('list fetched successfully',users);
+
+      return users;
+    } catch (error) {
+      console.log('list didnt fetch');
+
+      throw new InternalServerErrorException('Error retrieving users');
+    }
+  }
+
+
+  async getRolePercentages() {
+    // Fetch all users and populate their roles
+    const users = await this.UserModel.find().populate('roleId');
+
+    if (!users || users.length === 0) {
+      throw new NotFoundException('No users found');
+    }
+
+    // Count roles across all users
+    const roleCounts = {
+      'Maman': 0,
+      'Admin': 0,
+      'Medecin': 0,
+    };
+
+    for (const user of users) {
+      const role = user.roleId as Types.ObjectId; // Cast to Types.ObjectId
+      if (role) {
+        const roleDetails = await this.rolesService.getRoleById(role.toString()); // Convert ObjectId to string
+        if (roleDetails) {
+          const roleName = roleDetails.name; // Access role details safely
+          if (roleName) {
+            if (roleName === 'Maman') {
+              roleCounts['Maman'] += 1;
+            } else if (roleName === 'Admin') {
+              roleCounts['Admin'] += 1;
+            } else if (roleName === 'Medecin') {
+              roleCounts['Medecin'] += 1;
+            }
+          }
+        }
+      }
+    }
+
+    const totalRoles = users.length;
+
+    const rolePercentages = {
+      'Maman': (roleCounts['Maman'] / totalRoles) * 100,
+      'Admin': (roleCounts['Admin'] / totalRoles) * 100,
+      'Medecin': (roleCounts['Medecin'] / totalRoles) * 100,
+    };
+
+    return {
+      percentages: rolePercentages,
+    };
+  }
+
 }

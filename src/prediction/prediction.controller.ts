@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body,Get } from '@nestjs/common';
 import { PredictionService } from './prediction.service';
 
 @Controller('predictions')
@@ -8,5 +8,10 @@ export class PredictionController {
   @Post()
   async createPrediction(@Body() data: any) {
     return this.predictionService.makePrediction(data);
+  }
+
+  @Get()
+  async getAllPredictions() {
+    return this.predictionService.getAllPredictions();
   }
 }

@@ -7,4 +7,5 @@ export declare class PredictionService {
     private readonly fastApiUrl;
     constructor(httpService: HttpService, predictionModel: Model<PredictionDocument>);
     makePrediction(data: any): Promise<PredictionDocument>;
+    getAllPredictions(): Promise<PredictionDocument[]>;
 }

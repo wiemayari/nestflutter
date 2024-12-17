@@ -21,13 +21,17 @@ let ResponseController = class ResponseController {
         this.geminiService = geminiService;
         this.responseeService = responseeService;
     }
-    async getResponse(query) {
+    async getResponse(query, userId) {
+        if (!userId) {
+            throw new Error('userId is required');
+        }
         const aiResponse = await this.geminiService.getAIResponse(query);
         const category = this.categorizeQuestion(query);
         const responseDto = {
             query,
             response: aiResponse,
             category,
+            userId,
         };
         const savedResponse = await this.responseeService.create(responseDto);
         return savedResponse;
@@ -43,14 +47,28 @@ let ResponseController = class ResponseController {
         }
         return 'general';
     }
+    async getAllResponses(userId) {
+        if (userId) {
+            return this.responseeService.findAllByUser(userId);
+        }
+        return this.responseeService.findAllByUser(userId);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)('query')),
+    __param(1, (0, common_1.Body)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ResponseController.prototype, "getResponse", null);
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ResponseController.prototype, "getResponse", null);
+], ResponseController.prototype, "getAllResponses", null);
 ResponseController = __decorate([
     (0, common_1.Controller)('response'),
     __metadata("design:paramtypes", [gemini_service_1.GeminiService,

@@ -27,6 +27,9 @@ let RolesService = class RolesService {
     async getRoleById(roleId) {
         return this.RoleModel.findById(roleId);
     }
+    async getRoles() {
+        return this.RoleModel.find();
+    }
 };
 RolesService = __decorate([
     (0, common_1.Injectable)(),

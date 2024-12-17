@@ -14,6 +14,9 @@ export class Responsee {
   @Prop({ required: true })
   category: string;
 
+  @Prop({ required: true })
+  userId: string;
+
   @Prop({ default: Date.now })
   createdAt: Date;
 }

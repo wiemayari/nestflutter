@@ -59,4 +59,16 @@ export declare class AuthController {
         message: string;
     }>;
     resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void>;
+    getAllUsers(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/user.schema").User> & import("./schemas/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    getRolePercentages(): Promise<{
+        percentages: {
+            Maman: number;
+            Admin: number;
+            Medecin: number;
+        };
+    }>;
 }

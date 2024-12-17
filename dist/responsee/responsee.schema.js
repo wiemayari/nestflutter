@@ -26,6 +26,10 @@ __decorate([
     __metadata("design:type", String)
 ], Responsee.prototype, "category", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Responsee.prototype, "userId", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: Date.now }),
     __metadata("design:type", Date)
 ], Responsee.prototype, "createdAt", void 0);

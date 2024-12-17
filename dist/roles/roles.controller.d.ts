@@ -34,4 +34,9 @@ export declare class RolesController {
     }> & {
         __v: number;
     }>;
+    getRoles(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/role.schema").Role> & import("./schemas/role.schema").Role & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
 }

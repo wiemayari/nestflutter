@@ -43,4 +43,16 @@ export declare class AuthService {
     }>;
     storeRefreshToken(token: string, userId: string): Promise<void>;
     getUserPermissions(...args: [userId: string]): Promise<Permission[]>;
+    getAllUsers(): Promise<(mongoose.Document<unknown, {}, User> & User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    getRolePercentages(): Promise<{
+        percentages: {
+            Maman: number;
+            Admin: number;
+            Medecin: number;
+        };
+    }>;
 }

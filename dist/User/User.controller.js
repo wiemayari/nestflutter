@@ -50,6 +50,18 @@ let AuthController = class AuthController {
     async resetPassword(resetPasswordDto) {
         return this.authService.resetPassword(resetPasswordDto.newPassword, resetPasswordDto.resetToken);
     }
+    async getAllUsers() {
+        return this.authService.getAllUsers();
+    }
+    async getRolePercentages() {
+        const rolePercentages = await this.authService.getRolePercentages();
+        if (rolePercentages.percentages) {
+            return rolePercentages;
+        }
+        else {
+            throw new common_1.InternalServerErrorException('Role percentages could not be calculated');
+        }
+    }
 };
 __decorate([
     (0, common_1.Get)('recommendations/:userId'),
@@ -109,6 +121,18 @@ __decorate([
     __metadata("design:paramtypes", [reset_password_dto_1.ResetPasswordDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "resetPassword", null);
+__decorate([
+    (0, common_1.Get)('users'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getAllUsers", null);
+__decorate([
+    (0, common_1.Get)('role-percentages'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getRolePercentages", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [User_service_1.AuthService])

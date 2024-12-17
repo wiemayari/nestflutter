@@ -49,6 +49,17 @@ let PredictionService = class PredictionService {
             throw new common_1.HttpException(`Erreur lors de la prédiction : ${error.message}`, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async getAllPredictions() {
+        try {
+            const predictions = await this.predictionModel.find().exec();
+            console.log('Toutes les prédictions récupérées :', predictions);
+            return predictions;
+        }
+        catch (error) {
+            console.error('Erreur lors de la récupération des prédictions :', error.message);
+            throw new common_1.HttpException(`Erreur lors de la récupération des prédictions : ${error.message}`, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 PredictionService = __decorate([
     (0, common_1.Injectable)(),

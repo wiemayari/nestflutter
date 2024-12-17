@@ -39,4 +39,9 @@ export declare class RolesService {
     }> & {
         __v: number;
     }>;
+    getRoles(): Promise<(import("mongoose").Document<unknown, {}, Role> & Role & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
 }

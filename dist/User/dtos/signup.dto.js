@@ -35,5 +35,9 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], SignupDto.prototype, "imageUri", void 0);
+__decorate([
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], SignupDto.prototype, "roleId", void 0);
 exports.SignupDto = SignupDto;
 //# sourceMappingURL=signup.dto.js.map

@@ -25,6 +25,9 @@ let ResponseeService = class ResponseeService {
         const newResponse = new this.responseeModel(createResponseeDto);
         return newResponse.save();
     }
+    async findAllByUser(userId) {
+        return this.responseeModel.find({ userId }).exec();
+    }
 };
 ResponseeService = __decorate([
     (0, common_1.Injectable)(),

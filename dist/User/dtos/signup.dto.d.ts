@@ -4,4 +4,5 @@ export declare class SignupDto {
     password: string;
     bio: string;
     imageUri: string;
+    roleId: string;
 }

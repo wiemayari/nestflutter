@@ -41,7 +41,7 @@ let AuthService = class AuthService {
         this.rolesService = rolesService;
     }
     async signup(signupData) {
-        const { username, email, password, bio, imageUri } = signupData;
+        const { username, email, password, bio, imageUri, roleId } = signupData;
         console.log('Données d\'inscription reçues :', signupData);
         console.log('Vérification de l\'email...');
         const emailInUse = await this.UserModel.findOne({ email });
@@ -60,6 +60,7 @@ let AuthService = class AuthService {
                 password: hashedPassword,
                 bio,
                 imageUri,
+                roleId,
             });
             console.log('Utilisateur créé avec succès :', newUser);
             return newUser;
@@ -168,6 +169,60 @@ let AuthService = class AuthService {
             { resource: 'doctors', actions: ['read', 'write'] },
             { resource: 'patients', actions: ['read'] },
         ];
+    }
+    async getAllUsers() {
+        try {
+            const users = await this.UserModel.find();
+            if (!users) {
+                throw new common_1.NotFoundException('No users found');
+            }
+            console.log('list fetched successfully', users);
+            return users;
+        }
+        catch (error) {
+            console.log('list didnt fetch');
+            throw new common_1.InternalServerErrorException('Error retrieving users');
+        }
+    }
+    async getRolePercentages() {
+        const users = await this.UserModel.find().populate('roleId');
+        if (!users || users.length === 0) {
+            throw new common_1.NotFoundException('No users found');
+        }
+        const roleCounts = {
+            'Maman': 0,
+            'Admin': 0,
+            'Medecin': 0,
+        };
+        for (const user of users) {
+            const role = user.roleId;
+            if (role) {
+                const roleDetails = await this.rolesService.getRoleById(role.toString());
+                if (roleDetails) {
+                    const roleName = roleDetails.name;
+                    if (roleName) {
+                        if (roleName === 'Maman') {
+                            roleCounts['Maman'] += 1;
+                        }
+                        else if (roleName === 'Admin') {
+                            roleCounts['Admin'] += 1;
+                        }
+                        else if (roleName === 'Medecin') {
+                            roleCounts['Medecin'] += 1;
+                        }
+                    }
+                }
+            }
+        }
+        const totalRoles = users.length;
+        const rolePercentages = {
+            'Maman': (roleCounts['Maman'] / totalRoles) * 100,
+            'Admin': (roleCounts['Admin'] / totalRoles) * 100,
+            'Medecin': (roleCounts['Medecin'] / totalRoles) * 100,
+        };
+        return {
+            percentages: rolePercentages,
+        };
     }
 };
 AuthService = __decorate([

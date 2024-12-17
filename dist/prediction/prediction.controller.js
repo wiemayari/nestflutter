@@ -22,6 +22,9 @@ let PredictionController = class PredictionController {
     async createPrediction(data) {
         return this.predictionService.makePrediction(data);
     }
+    async getAllPredictions() {
+        return this.predictionService.getAllPredictions();
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -30,6 +33,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PredictionController.prototype, "createPrediction", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PredictionController.prototype, "getAllPredictions", null);
 PredictionController = __decorate([
     (0, common_1.Controller)('predictions'),
     __metadata("design:paramtypes", [prediction_service_1.PredictionService])

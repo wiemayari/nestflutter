@@ -10,7 +10,13 @@ export class ResponseeService {
 
   // Enregistrer une nouvelle réponse
   async create(createResponseeDto: CreateResponseeDto): Promise<Responsee> {
+    // Create a new response document
     const newResponse = new this.responseeModel(createResponseeDto);
     return newResponse.save();
+  }
+  
+
+  async findAllByUser(userId: string): Promise<Responsee[]> {
+    return this.responseeModel.find({ userId }).exec();
   }
 }

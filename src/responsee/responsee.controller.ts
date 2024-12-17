@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post,Get , Body ,Query} from '@nestjs/common';
 import { GeminiService } from 'src/gemini/gemini.service';
 import { ResponseeService } from './responsee.service';
 import { CreateResponseeDto } from './create-responsee.dto';
@@ -11,23 +11,32 @@ export class ResponseController {
   ) {}
 
   @Post()
-  async getResponse(@Body('query') query: string) {
-    // Appel à l'API Gemini
-    const aiResponse = await this.geminiService.getAIResponse(query);
-    const category = this.categorizeQuestion(query);
-
-    // Préparation des données pour MongoDB
-    const responseDto: CreateResponseeDto = {
-      query,
-      response: aiResponse,
-      category,
-    };
-
-    // Enregistrement dans MongoDB
-    const savedResponse = await this.responseeService.create(responseDto);
-
-    return savedResponse; // Retourne la réponse sauvegardée
+async getResponse(@Body('query') query: string, @Body('userId') userId: string) {
+  // Validate userId
+  if (!userId) {
+    throw new Error('userId is required');
   }
+
+  // Call the Gemini API
+  const aiResponse = await this.geminiService.getAIResponse(query);
+
+  // Categorize the question
+  const category = this.categorizeQuestion(query);
+
+  // Prepare data for MongoDB
+  const responseDto: CreateResponseeDto = {
+    query,
+    response: aiResponse,
+    category,
+    userId, // Include userId
+  };
+
+  // Save to MongoDB
+  const savedResponse = await this.responseeService.create(responseDto);
+
+  return savedResponse; // Return the saved response
+}
+
 
   private categorizeQuestion(query: string): string {
     const pregnancyKeywords = ['enceinte', 'grossesse', 'symptômes', 'accouchement'];
@@ -39,5 +48,13 @@ export class ResponseController {
       return 'baby';
     }
     return 'general';
+  }
+
+  @Get()
+  async getAllResponses(@Query('userId') userId: string) {
+    if (userId) {
+      return this.responseeService.findAllByUser(userId);
+    }
+    return this.responseeService.findAllByUser(userId);
   }
 }
